@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/main.css">
+    <title>Prison Utils</title>
+</head>
+<body>
+<header class="header">
+    <div class="header__inner container">
+        <div class="header__inner-logo h2">
+            <span>#</span>Prison Utils
+        </div>
+        <div class="header__inner-menu">
+            <ul class="header__menu-list">
+                <li class="header__menu-item">
+                    <a href="/AllGang" class="header__menu-link h4">Посмотреть группировки</a>
+                </li>
+                <li class="header__menu-item">
+                    <a href="/AllPrison" class="header__menu-link h4">Посмотреть все тюрьмы</a>
+                </li>
+                <li class="header__menu-item">
+                    <a href="/AllCaste" class="header__menu-link h4">Посмотреть все касты</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</header>
+
+<main>
+    <section class="main-page">
+        <div class="main__info container">
+            <div class="main__info-btns">
+                <a href="/addMember" class="main_info-btns-btn button">Добавить заключенного</a>
+                <a href="/addCaste" class="main_info-btns-btn button">Добавить касту</a>
+                <a href="/addGang" class="main_info-btns-btn button">Добавить банду</a>
+                <a href="/addPrison" class="main_info-btns-btn button">Добавить тюрьму </a>
+            </div>
+            <div class="main__info-prisoners container">
+                <ul>
+                    <li class="main__info-item" th:each="member : ${members}">
+                        <a href="/" class="main__info-item-link" style="pointer-events: none">Имя:
+                            <span th:text="${member.memberName}"></span>
+                        </a>
+                        <a href="/" class="main__info-item-link" style="pointer-events: none">Фамилия:
+                            <span th:text="${member.memberSecondName}"></span>
+                        </a>
+                        <a href="/" class="main__info-item-link" style="pointer-events: none">Отчество:
+                            <span th:text="${member.memberLastName}"></span>
+                        </a>
+                        <a href="/" class="main__info-item-link" style="pointer-events: none">Колония:
+                            <span th:text="${member.prison.name} + ' - ' + ${member.prison.city}"></span>
+                        </a>
+                        <a href="/" class="main__info-item-link" style="pointer-events: none">Дата заключения:
+                            <span th:text="${member.joinedDate}"></span>
+                        </a>
+                        <a href="/" class="main__info-item-link" style="pointer-events: none">Активен:
+                            <span th:text="${member.active}"></span>
+                        </a>
+                        <a href="/" class="main__info-item-link" style="pointer-events: none">Номер статьи:
+                            <span th:text="${member.articleNumber}"></span>
+                        </a>
+                        <a href="/" class="main__info-item-link" style="pointer-events: none">Описание статьи:
+                            <span th:text="${member.articleDescription}"></span>
+                        </a>
+                        <div class="update-cont">
+                            <a th:href="@{/editMember/{id}(id=${member.id})}" class="main__info-sup edit">Редактировать</a>
+                            <form action="#" th:action="@{/deleteMember/{id}(id=${member.id})}" method="post" style="display:inline;">
+                                <button type="submit" class="main__info-sup delete" style="background:none; border:none; color:red; text-decoration:underline; cursor:pointer;">Удалить</button>
+                            </form>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+</main>
+</body>
+</html>

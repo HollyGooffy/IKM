@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/main.css">
+    <title>All Gangs</title>
+</head>
+<body>
+<header class="header">
+    <div class="header__inner container">
+        <div class="header__inner-logo h2">
+            <span>#</span>Prison Utils
+        </div>
+        <div class="header__inner-menu">
+            <ul class="header__menu-list">
+                <li class="header__menu-item">
+                    <a href="/AllGang" class="header__menu-link h4 is-active" style="pointer-events: none">Посмотреть группировки</a>
+                </li>
+                <li class="header__menu-item">
+                    <a href="/AllPrison" class="header__menu-link h4">Посмотреть все тюрьмы</a>
+                </li>
+                <li class="header__menu-item">
+                    <a href="/AllCaste" class="header__menu-link h4">Посмотреть все касты</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</header>
+<main>
+    <section class="container">
+        <div class="showAllElement">
+            <ul class="allelement__list">
+                <li th:each="gang : ${gangs}" class="allElement__item">
+                    <a href="/" class="allElement__item-link" style="pointer-events: none">Название банды:
+                        <span th:text="${gang.getName()}"></span>
+                    </a>
+                    <a href="/" class="allElement__item-link" style="pointer-events: none">Лидер:
+                        <span th:text="${gang.getLeader()}"></span>
+                    </a>
+                    <a href="/" class="allElement__item-link" style="pointer-events: none">Тюрьма:
+                        <span th:text="${gang.prison?.getName()} + ' - ' + ${gang.prison?.getCity()}"></span>
+                    </a>
+                    <a href="/" class="allElement__item-link" style="pointer-events: none">Активна:
+                        <span th:text="${gang.getActive()}"></span>
+                    </a>
+                    <div class="update-cont">
+                        <a th:href="@{/editGang/{id}(id=${gang.id})}" class="main__info-sup edit">Редактировать</a>
+                        <form action="#" th:action="@{/deleteGang/{id}(id=${gang.id})}" method="post" style="display:inline;">
+                            <button type="submit" class="main__info-sup delete" style="background:none; border:none; color:red; text-decoration:underline; cursor:pointer;">Удалить</button>
+                        </form>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+</main>
+</body>
+</html>

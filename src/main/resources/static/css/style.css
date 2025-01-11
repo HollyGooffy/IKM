@@ -1,0 +1,154 @@
+.header{
+    border-bottom: var(--border);
+}
+
+.header__inner{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header__inner-logo{
+    color: var(--color-light);
+}
+
+.header__inner-logo span{
+    color: var(--color-accent);
+}
+
+.header__menu-list{
+    display: flex;
+    column-gap: 30px
+}
+
+.header__menu-link{
+    color: var(--color-light);
+    transition-duration: var(--duration);
+    font-size: 19px;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.header__menu-link:not(.is-active){
+    background-color: transparent;
+    padding: 10px;
+}
+
+.header__menu-link.is-active{
+    color: var(--color-accent);
+    background-color: var(--color-dark);
+    padding: 10px;
+    border-radius: 5px;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.header__menu-link:hover{
+    color:var(--color-accent)
+}
+
+.main__info-btns{
+    width: var(--container-min);
+    display: flex;
+    justify-content: space-between;
+    margin-inline: auto;
+    column-gap: 20px;
+    padding-top: 50px;
+}
+
+.main__info-prisoners{
+    width: var(--container-min);
+
+}
+
+.addMember-page{
+    padding-top: 50px;
+}
+
+.page__form{
+    text-align: center;
+    display: grid;
+    max-width: 300px;
+    margin-inline: auto;
+    row-gap: 10px;
+}
+
+label{
+    color:var(--color-light)
+}
+
+input, select, option{
+    background-color: var(--color-dark-20);
+    border: 1px solid var(--color-gray-60);
+    border-radius: 3px;
+    height: 40px;
+    color: var(--color-light);
+    transition-duration: var(--duration);
+}
+
+input[type="text"]
+{
+    font-size:20px;
+}
+
+.button__form-submit{
+    margin-top: 15px;
+    height: 55px;
+    justify-content: center;
+    align-items: center;
+
+}
+
+.showAllElement{
+    display: flex;
+    justify-content: center;
+    padding-top: 50px;
+}
+
+.allElement__item{
+    background-color: var(--color-dark);
+    padding: 20px 50px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: space-between;
+    width: 1200px;
+    border-radius: 4px;
+}
+
+.allElement__item-link{
+    font-size: 20px;
+    color: var(--color-light)
+}
+
+.main__info-prisoners{
+    padding-top: 50px;
+}
+
+.main__info-item{
+    background-color: var(--color-dark);
+    padding: 10px 20px;
+    margin-bottom: 20px;
+    position: relative;
+    border-radius: 4px;
+    border: var(--border);
+    display: grid;
+    grid-template-columns: 1fr;
+    row-gap: 10px;
+}
+
+.update-cont{
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    display: grid;
+}
+
+.edit{
+    color:var(--color-gray-60);
+}
+
+.delete{
+    background: transparent;
+    border: none;
+    color: red;
+}

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/css/main.css">
+    <title>Edit Member</title>
+</head>
+<body>
+<header class="header">
+    <div class="header__inner container">
+        <div class="header__inner-logo h2">
+            <span>#</span>Prison Utils
+        </div>
+        <div class="header__inner-menu">
+            <ul class="header__menu-list">
+                <li class="header__menu-item">
+                    <a href="/AllGang" class="header__menu-link h4">Посмотреть группировки</a>
+                </li>
+                <li class="header__menu-item">
+                    <a href="/AllPrison" class="header__menu-link h4">Посмотреть все тюрьмы</a>
+                </li>
+                <li class="header__menu-item">
+                    <a href="/AllCaste" class="header__menu-link h4">Посмотреть все касты</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</header>
+<main>
+    <section>
+        <div class="editMember-page container">
+            <form action="#" class="page__form" th:action="@{/editMember/{id}(id=${member.id})}" th:object="${member}" method="post">
+                <label for="firstName">Имя</label>
+                <input type="text" id="firstName" th:field="*{memberName}" required>
+
+                <label for="secondName">Фамилия</label>
+                <input type="text" id="secondName" th:field="*{memberSecondName}" required>
+
+                <label for="LastName">Отчество</label>
+                <input type="text" id="LastName" th:field="*{memberLastName}" required>
+
+                <label for="casteSelect">Выбор Касты</label>
+                <select id="casteSelect" name="casteId">
+                    <option value="">Нет</option>
+                    <option th:each="caste : ${castes}"
+                            th:value="${caste.id}"
+                            th:text="${caste.name}"
+                            th:selected="${caste.id == member.caste.id}"></option>
+                </select>
+
+                <label for="gangSelect">Выбор Группировки</label>
+                <select id="gangSelect" name="gangId">
+                    <option value="">Нет</option>
+                    <option th:each="gang : ${gangs}"
+                            th:value="${gang.id}"
+                            th:text="${gang.name}"
+                            th:selected="${gang.id == member.gang.id}"></option>
+                </select>
+
+                <label for="prisonSelect">Выбор Колонии</label>
+                <select id="prisonSelect" name="prisonId" required>
+                    <option value="">Исправительные колонии</option>
+                    <option th:each="prison : ${prisons}"
+                            th:value="${prison.id}"
+                            th:text="${prison.name} + ' - ' + ${prison.city}"
+                            th:selected="${prison.id == member.prison.id}"></option>
+                </select>
+
+                <label for="articleNumber">Номер статьи</label>
+                <input type="text" id="articleNumber" name="articleNumber" th:field="*{articleNumber}" required>
+
+                <label for="articleDescription">Описание статьи</label>
+                <textarea id="articleDescription" name="articleDescription" th:field="*{articleDescription}" required></textarea>
+
+                <button class="button button__form-submit" type="submit">Обновить</button>
+            </form>
+        </div>
+    </section>
+</main>
+</body>
+</html>
