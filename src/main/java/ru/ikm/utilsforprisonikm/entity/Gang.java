@@ -19,7 +19,7 @@ public class Gang {
     @Column(name = "name", nullable = false, length = 50)
     private String name;
 
-    @Column(name = "leader", nullable = false, length = 50)
+    @Column(name = "leader", length = 50)
     private String leader;
 
     @OneToOne(fetch = FetchType.LAZY)

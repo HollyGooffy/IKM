@@ -7,5 +7,8 @@ import ru.ikm.utilsforprisonikm.entity.Prison;
 import java.util.List;
 
 public interface MemberRepository extends JpaRepository<Member, Long> {
-    List<Member> findByPrison(Prison prison);
+    List<Member> findByPrisonId(Long prisonId);
+    List<Member> findByCasteId(Long casteId);
+    List<Member> findByGangId(Long gangId);
+    List<Member> findByArticleNumber(String articleNumber);
 }

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto\:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/main.css">
     <title>Add Gang</title>
 </head>
@@ -12,7 +12,9 @@
 <header class="header">
     <div class="header__inner container">
         <div class="header__inner-logo h2">
-            <span>#</span>Prison Utils
+            <a href="/" class="header__logo-link">
+                <span>#</span>Prison Utils
+            </a>
         </div>
         <div class="header__inner-menu">
             <ul class="header__menu-list">
@@ -33,23 +35,23 @@
     <section>
         <div class="addGang-page container">
             <form action="#" class="page__form" th:action="@{/addGang}" th:object="${gang}" method="post">
-                <label for="gangName">Название банды</label>
-                <input type="text" id="gangName" th:field="*{name}" required>
+                <div th:if="${errorMessage}" class="error-message">
+                    <p th:text="${errorMessage}"></p>
+                </div>
 
-                <label for="leaderSelect">Лидер</label>
-                <select id="leaderSelect" th:field="*{leader}">
-                    <option value="">Лидер</option>
-                    <option th:each="member : ${members}"
-                            th:value="${member.id}"
-                            th:text="${member.memberName}"></option>
-                </select>
+                <label for="name">Название</label>
+                <input type="text" id="name" th:field="*{name}" required>
+
+                <label for="leader">Лидер</label>
+                <input type="text" id="leader" th:field="*{leader}" required>
 
                 <label for="prisonSelect">Выбор Колонии</label>
                 <select id="prisonSelect" name="prisonId" required>
                     <option value="">Исправительные колонии</option>
                     <option th:each="prison : ${prisons}"
                             th:value="${prison.id}"
-                            th:text="${prison.name} + ' - ' + ${prison.city}"></option>
+                            th:text="${prison.name} + ' - ' + ${prison.city}">
+                    </option>
                 </select>
 
                 <button class="button button__form-submit" type="submit">Добавить</button>

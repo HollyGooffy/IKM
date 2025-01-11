@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,7 +12,9 @@
 <header class="header">
     <div class="header__inner container">
         <div class="header__inner-logo h2">
-            <span>#</span>Prison Utils
+            <a href="/" class="header__logo-link">
+                <span>#</span>Prison Utils
+            </a>
         </div>
         <div class="header__inner-menu">
             <ul class="header__menu-list">
@@ -33,6 +35,7 @@
     <section>
         <div class="addMember-page container">
             <form action="#" class="page__form" th:action="@{/addMember}" th:object="${member}" method="post">
+
                 <label for="firstName">Имя</label>
                 <input type="text" id="firstName" th:field="*{memberName}" required>
 
@@ -47,7 +50,8 @@
                     <option value="">Нет</option>
                     <option th:each="caste : ${castes}"
                             th:value="${caste.id}"
-                            th:text="${caste.name}"></option>
+                            th:text="${caste.name}">
+                    </option>
                 </select>
 
                 <label for="gangSelect">Выбор Группировки</label>
@@ -55,7 +59,8 @@
                     <option value="">Нет</option>
                     <option th:each="gang : ${gangs}"
                             th:value="${gang.id}"
-                            th:text="${gang.name}"></option>
+                            th:text="${gang.name}">
+                    </option>
                 </select>
 
                 <label for="prisonSelect">Выбор Колонии</label>
@@ -63,14 +68,15 @@
                     <option value="">Исправительные колонии</option>
                     <option th:each="prison : ${prisons}"
                             th:value="${prison.id}"
-                            th:text="${prison.name} + ' - ' + ${prison.city}"></option>
+                            th:text="${prison.name} + ' - ' + ${prison.city}">
+                    </option>
                 </select>
 
                 <label for="articleNumber">Номер статьи</label>
-                <input type="text" id="articleNumber" name="articleNumber" required>
+                <input type="text" id="articleNumber" name="articleNumber" th:field="*{articleNumber}" required>
 
                 <label for="articleDescription">Описание статьи</label>
-                <textarea id="articleDescription" name="articleDescription" required></textarea>
+                <textarea id="articleDescription" name="articleDescription" th:field="*{articleDescription}" required></textarea>
 
                 <button class="button button__form-submit" type="submit">Добавить</button>
             </form>

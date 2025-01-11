@@ -34,7 +34,7 @@ public class editController {
     // Patch
     @GetMapping("/editMember/{id}")
     public String showEditMemberForm(@PathVariable Long id, Model model) {
-        Member member = memberRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid author Id:" + id));
+        Member member = memberRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid member Id:" + id));
         List<Prison> prisons = prisonRepository.findAll();
         List<Caste> castes = casteRepository.findAll();
         List<Gang> gangs = gangRepository.findAll();

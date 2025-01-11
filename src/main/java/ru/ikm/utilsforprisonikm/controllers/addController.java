@@ -44,6 +44,7 @@ public class addController {
         return "addMember";
     }
 
+
     @PostMapping("/addMember")
     public String addMember(@ModelAttribute Member member, @RequestParam(value = "prisonId", required = false) Long prisonId, @RequestParam(value = "casteId", required = false) Long casteId, @RequestParam(value = "gangId", required = false) Long gangId, @RequestParam("articleNumber") String articleNumber, @RequestParam("articleDescription") String articleDescription, Model model) {
         if (prisonId != null) {
@@ -92,16 +93,20 @@ public class addController {
 
     @GetMapping("/addGang")
     public String showAddGangForm(Model model) {
-        List<Member> members = memberRepository.findAll();
         List<Prison> prisons = prisonRepository.findAll();
         model.addAttribute("gang", new Gang());
-        model.addAttribute("members", members);
         model.addAttribute("prisons", prisons);
         return "addGang";
     }
 
     @PostMapping("/addGang")
     public String addGang(@ModelAttribute Gang gang, @RequestParam("prisonId") Long prisonId, Model model) {
+        // Проверка на уникальность значения leader
+        if (gangRepository.existsByLeader(gang.getLeader())) {
+            model.addAttribute("errorMessage", "Лидер с таким именем уже существует.");
+            return "addGang";
+        }
+
         Prison prison = prisonRepository.findById(prisonId).orElse(null);
         gang.setPrison(prison);
         gangRepository.save(gang);

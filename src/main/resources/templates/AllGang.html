@@ -6,13 +6,16 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <title>All Gangs</title>
 </head>
 <body>
 <header class="header">
     <div class="header__inner container">
         <div class="header__inner-logo h2">
-            <span>#</span>Prison Utils
+            <a href="/" class="header__logo-link">
+                <span>#</span>Prison Utils
+            </a>
         </div>
         <div class="header__inner-menu">
             <ul class="header__menu-list">
@@ -43,13 +46,13 @@
                     <a href="/" class="allElement__item-link" style="pointer-events: none">Тюрьма:
                         <span th:text="${gang.prison?.getName()} + ' - ' + ${gang.prison?.getCity()}"></span>
                     </a>
-                    <a href="/" class="allElement__item-link" style="pointer-events: none">Активна:
+                    <a href="/" class="allElement__item-link last-child-span" style="pointer-events: none">Активна:
                         <span th:text="${gang.getActive()}"></span>
                     </a>
                     <div class="update-cont">
-                        <a th:href="@{/editGang/{id}(id=${gang.id})}" class="main__info-sup edit">Редактировать</a>
+                        <a th:href="@{/editGang/{id}(id=${gang.id})}" class="main__info-sup edit"><i class="fas fa-edit"></i></a>
                         <form action="#" th:action="@{/deleteGang/{id}(id=${gang.id})}" method="post" style="display:inline;">
-                            <button type="submit" class="main__info-sup delete" style="background:none; border:none; color:red; text-decoration:underline; cursor:pointer;">Удалить</button>
+                            <button type="submit" class="main__info-sup delete" style="background:none; border:none; color:red; text-decoration:underline; cursor:pointer;"><i class="fas fa-trash-alt"></i></button>
                         </form>
                     </div>
                 </li>

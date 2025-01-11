@@ -1,25 +1,12 @@
 package ru.ikm.utilsforprisonikm.controllers;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PagedModel;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 import ru.ikm.utilsforprisonikm.entity.*;
 import ru.ikm.utilsforprisonikm.repository.*;
-
-import java.io.IOException;
-import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
-
 @Controller
 @RequiredArgsConstructor
 public class MainController {

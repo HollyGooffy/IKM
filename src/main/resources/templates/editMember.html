@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -12,7 +12,9 @@
 <header class="header">
     <div class="header__inner container">
         <div class="header__inner-logo h2">
-            <span>#</span>Prison Utils
+            <a href="/" class="header__logo-link">
+                <span>#</span>Prison Utils
+            </a>
         </div>
         <div class="header__inner-menu">
             <ul class="header__menu-list">
@@ -33,6 +35,7 @@
     <section>
         <div class="editMember-page container">
             <form action="#" class="page__form" th:action="@{/editMember/{id}(id=${member.id})}" th:object="${member}" method="post">
+
                 <label for="firstName">Имя</label>
                 <input type="text" id="firstName" th:field="*{memberName}" required>
 
@@ -48,7 +51,8 @@
                     <option th:each="caste : ${castes}"
                             th:value="${caste.id}"
                             th:text="${caste.name}"
-                            th:selected="${caste.id == member.caste.id}"></option>
+                            th:selected="${caste.id == (member.caste != null ? member.caste.id : null)}">
+                    </option>
                 </select>
 
                 <label for="gangSelect">Выбор Группировки</label>
@@ -57,7 +61,8 @@
                     <option th:each="gang : ${gangs}"
                             th:value="${gang.id}"
                             th:text="${gang.name}"
-                            th:selected="${gang.id == member.gang.id}"></option>
+                            th:selected="${gang.id == (member.gang != null ? member.gang.id : null)}">
+                    </option>
                 </select>
 
                 <label for="prisonSelect">Выбор Колонии</label>
@@ -66,7 +71,8 @@
                     <option th:each="prison : ${prisons}"
                             th:value="${prison.id}"
                             th:text="${prison.name} + ' - ' + ${prison.city}"
-                            th:selected="${prison.id == member.prison.id}"></option>
+                            th:selected="${prison.id == (member.prison != null ? member.prison.id : null)}">
+                    </option>
                 </select>
 
                 <label for="articleNumber">Номер статьи</label>

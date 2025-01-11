@@ -4,6 +4,14 @@ server:
 spring:
   application:
     name: ikm
+  thymeleaf:
+    prefix: classpath:/templates/
+    suffix: .html
+    mode: HTML
+    encoding: UTF-8
+    cache: false
+    servlet:
+      content-type: text/html
 
   datasource:
     driver-class-name: org.postgresql.Driver
@@ -19,4 +27,3 @@ spring:
 springdoc:
   swagger-ui:
     path: /docs
-

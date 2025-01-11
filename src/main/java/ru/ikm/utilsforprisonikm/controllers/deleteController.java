@@ -1,21 +1,14 @@
 package ru.ikm.utilsforprisonikm.controllers;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PagedModel;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
-import ru.ikm.utilsforprisonikm.entity.Article;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import ru.ikm.utilsforprisonikm.entity.Gang;
+import ru.ikm.utilsforprisonikm.entity.Member;
 import ru.ikm.utilsforprisonikm.repository.*;
 
-import java.io.IOException;
-import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
@@ -37,31 +30,45 @@ public class deleteController {
 
     @PostMapping("/deleteCaste/{id}")
     public String deleteCaste(@PathVariable Long id) {
+        // Найти всех заключенных, связанных с этой кастой
+        List<Member> members = memberRepository.findByCasteId(id);
+
+        memberRepository.deleteAll(members);
         casteRepository.deleteById(id);
-        return "redirect:/";
+
+        return "redirect:/AllCaste";
     }
 
     @PostMapping("/deletePrison/{id}")
     public String deletePrison(@PathVariable Long id) {
+        List<Member> members = memberRepository.findByPrisonId(id);
+        memberRepository.deleteAll(members);
+        List<Gang> gangs = gangRepository.findByPrisonId(id);
+        gangRepository.deleteAll(gangs);
         prisonRepository.deleteById(id);
-        return "redirect:/";
+
+        return "redirect:/AllPrison";
     }
 
     @PostMapping("/deleteGang/{id}")
     public String deleteGang(@PathVariable Long id) {
+        List<Member> members = memberRepository.findByGangId(id);
+        memberRepository.deleteAll(members);
         gangRepository.deleteById(id);
-        return "redirect:/";
+        return "redirect:/AllGang";
     }
 
     @PostMapping("/deleteNickname/{id}")
     public String deleteNickname(@PathVariable Long id) {
         nicknameRepository.deleteById(id);
-        return "redirect:/";
+        return "redirect:/AllNickname";
     }
 
     @PostMapping("/deleteArticle/{id}")
     public String deleteArticle(@PathVariable Long id) {
+        List<Member> members = memberRepository.findByArticleNumber(String.valueOf(id));
+        memberRepository.deleteAll(members);
         articleRepository.deleteById(id);
-        return "redirect:/";
+        return "redirect:/AllArticle";
     }
 }
