@@ -28,7 +28,6 @@ public class addController {
     private final CasteRepository casteRepository;
     private final GangRepository gangRepository;
     private final MemberRepository memberRepository;
-    private final NicknameRepository nicknameRepository;
     private final PrisonRepository prisonRepository;
 
     // Add
@@ -44,9 +43,8 @@ public class addController {
         return "addMember";
     }
 
-
     @PostMapping("/addMember")
-    public String addMember(@ModelAttribute Member member, @RequestParam(value = "prisonId", required = false) Long prisonId, @RequestParam(value = "casteId", required = false) Long casteId, @RequestParam(value = "gangId", required = false) Long gangId, @RequestParam("articleNumber") String articleNumber, @RequestParam("articleDescription") String articleDescription, Model model) {
+    public String addMember(@ModelAttribute Member member, @RequestParam(value = "prisonId", required = false) Long prisonId, @RequestParam(value = "casteId", required = false) Long casteId, @RequestParam(value = "gangId", required = false) Long gangId, @RequestParam("articleNumber") String articleNumber, @RequestParam("articleDescription") String articleDescription, @RequestParam("nickname") String nickname, Model model) {
         if (prisonId != null) {
             Prison prison = prisonRepository.findById(prisonId).orElse(null);
             member.setPrison(prison);
@@ -61,11 +59,24 @@ public class addController {
         }
         member.setJoinedDate(LocalDate.now());
         member.setActive(true);
-        member.setArticleNumber(articleNumber);
-        member.setArticleDescription(articleDescription);
+
+        // Проверка на уникальность значения name
+        if (articleRepository.existsByName(nickname)) {
+            model.addAttribute("errorMessage", "Статья с таким именем уже существует.");
+            return "addMember";
+        }
+
+        // Сохраняем статью в отдельной сущности Article
+        Article article = new Article();
+        article.setArticleNumber(articleNumber);
+        article.setArticleDescription(articleDescription);
+        article.setName(nickname); // Убедитесь, что поле name не является null
+        articleRepository.save(article);
+
         memberRepository.save(member);
         return "redirect:/";
     }
+
 
     @GetMapping("/addCaste")
     public String showAddCasteForm(Model model) {
@@ -88,7 +99,7 @@ public class addController {
     @PostMapping("/addPrison")
     public String addPrison(@ModelAttribute Prison prison, Model model) {
         prisonRepository.save(prison);
-        return "redirect:/";
+        return "redirect:/AllPrison";
     }
 
     @GetMapping("/addGang")
@@ -111,18 +122,6 @@ public class addController {
         gang.setPrison(prison);
         gangRepository.save(gang);
         return "redirect:/AllGang";
-    }
-
-    @GetMapping("/addNickname")
-    public String showAddNicknameForm(Model model) {
-        model.addAttribute("nickname", new Nickname());
-        return "addNickname";
-    }
-
-    @PostMapping("/addNickname")
-    public String addNickname(@ModelAttribute Nickname nickname, Model model) {
-        nicknameRepository.save(nickname);
-        return "redirect:/";
     }
 
     @GetMapping("/addArticle")

@@ -14,7 +14,6 @@ public class MainController {
     private final CasteRepository casteRepository;
     private final GangRepository gangRepository;
     private final MemberRepository memberRepository;
-    private final NicknameRepository nicknameRepository;
     private final PrisonRepository prisonRepository;
 
     @GetMapping("/")
@@ -29,14 +28,12 @@ public class MainController {
 
         List<Prison> prisons = prisonRepository.findAll();
         List<Gang> gangs = gangRepository.findAll();
-        List<Nickname> nicknames = nicknameRepository.findAll();
         List<Article> articles = articleRepository.findAll();
 
         model.addAttribute("members", members);
         model.addAttribute("castes", castes);
         model.addAttribute("prisons", prisons);
         model.addAttribute("gangs", gangs);
-        model.addAttribute("nicknames", nicknames);
         model.addAttribute("articles", articles);
 
         return "index";
@@ -63,4 +60,11 @@ public class MainController {
         return "AllGang";
     }
 
+
+    @GetMapping("/AllArticle")
+    public String showAllArticles(Model model) {
+        List<Article> articles = articleRepository.findAll();
+        model.addAttribute("articles", articles);
+        return "AllArticle";
+    }
 }

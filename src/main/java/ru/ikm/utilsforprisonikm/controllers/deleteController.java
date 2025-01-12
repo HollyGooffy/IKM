@@ -18,7 +18,6 @@ public class deleteController {
     private final CasteRepository casteRepository;
     private final GangRepository gangRepository;
     private final MemberRepository memberRepository;
-    private final NicknameRepository nicknameRepository;
     private final PrisonRepository prisonRepository;
 
     // Delete
@@ -56,12 +55,6 @@ public class deleteController {
         memberRepository.deleteAll(members);
         gangRepository.deleteById(id);
         return "redirect:/AllGang";
-    }
-
-    @PostMapping("/deleteNickname/{id}")
-    public String deleteNickname(@PathVariable Long id) {
-        nicknameRepository.deleteById(id);
-        return "redirect:/AllNickname";
     }
 
     @PostMapping("/deleteArticle/{id}")

@@ -1,13 +1,65 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+          rel="stylesheet">
+    <link rel="stylesheet" href="/css/main.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <title>All Articles</title>
 </head>
 <body>
+<header class="header">
+    <div class="header__inner container">
+        <div class="header__inner-logo h2">
+            <a href="/" class="header__logo-link">
+                <span>#</span>Prison Utils
+            </a>
+        </div>
+        <div class="header__inner-menu">
+            <ul class="header__menu-list">
+                <li class="header__menu-item">
+                    <a href="/AllGang" class="header__menu-link h4">Группировки</a>
+                </li>
+                <li class="header__menu-item">
+                    <a href="/AllPrison" class="header__menu-link h4">Колонии</a>
+                </li>
+                <li class="header__menu-item">
+                    <a href="/AllCaste" class="header__menu-link h4">Касты</a>
+                </li>
+                <li class="header__menu-item">
+                    <a href="/AllArticle" class="header__menu-link h4 is-active" style="pointer-events: none">Статьи</a>
+                </li>
 
+            </ul>
+        </div>
+    </div>
+</header>
+<main>
+    <section class="container">
+        <div class="showAllElement">
+            <ul class="allelement__list">
+                <li th:each="article : ${articles}" class="allElement__item">
+                    <a href="/" class="allElement__item-link" style="pointer-events: none">
+                        Номер статьи:
+                        <span th:text="${article.name}"></span>
+                    </a>
+                    <a href="/" class="allElement__item-link last-child-span" style="pointer-events: none">
+                        Описание статьи:
+                        <span th:text="${article.description}"></span>
+                    </a>
+                    <div class="update-cont">
+                        <a th:href="@{/editArticle/{id}(id=${article.id})}" class="main__info-sup edit"><i class="fas fa-edit"></i></a>
+                        <form action="#" th:action="@{/deleteArticle/{id}(id=${article.id})}" method="post" style="display:inline;">
+                            <button type="submit" class="main__info-sup delete" style=" background: none; border:none; color:red; text-decoration:underline; cursor:pointer;"><i class="fas fa-trash-alt"></i></button>
+                        </form>
+                    </div>
+                </li>
+            </ul>
+        </div>
+    </section>
+</main>
 </body>
 </html>

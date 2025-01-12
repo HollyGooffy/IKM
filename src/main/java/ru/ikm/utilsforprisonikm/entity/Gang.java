@@ -5,6 +5,8 @@ import lombok.*;
 
 @Entity
 @Table(name = "gang")
+
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter

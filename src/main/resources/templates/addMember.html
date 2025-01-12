@@ -19,13 +19,16 @@
         <div class="header__inner-menu">
             <ul class="header__menu-list">
                 <li class="header__menu-item">
-                    <a href="/AllGang" class="header__menu-link h4">Посмотреть группировки</a>
+                    <a href="/AllGang" class="header__menu-link h4">Группировки</a>
                 </li>
                 <li class="header__menu-item">
-                    <a href="/AllPrison" class="header__menu-link h4">Посмотреть все тюрьмы</a>
+                    <a href="/AllPrison" class="header__menu-link h4">Колонии</a>
                 </li>
                 <li class="header__menu-item">
-                    <a href="/AllCaste" class="header__menu-link h4">Посмотреть все касты</a>
+                    <a href="/AllCaste" class="header__menu-link h4">Касты</a>
+                </li>
+                <li class="header__menu-item">
+                    <a href="/AllArticle" class="header__menu-link h4">Статьи</a>
                 </li>
             </ul>
         </div>
@@ -35,7 +38,6 @@
     <section>
         <div class="addMember-page container">
             <form action="#" class="page__form" th:action="@{/addMember}" th:object="${member}" method="post">
-
                 <label for="firstName">Имя</label>
                 <input type="text" id="firstName" th:field="*{memberName}" required>
 

@@ -48,7 +48,7 @@
 }
 
 .main__info-btns{
-    width: var(--container-min);
+    width: calc(var(--container-min) + 50px);
     display: flex;
     justify-content: space-between;
     margin-inline: auto;

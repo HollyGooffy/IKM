@@ -27,7 +27,6 @@ public class editController {
     private final CasteRepository casteRepository;
     private final GangRepository gangRepository;
     private final MemberRepository memberRepository;
-    private final NicknameRepository nicknameRepository;
     private final PrisonRepository prisonRepository;
 
 
@@ -112,19 +111,6 @@ public class editController {
         return "redirect:/";
     }
 
-    @GetMapping("/editNickname/{id}")
-    public String showEditNicknameForm(@PathVariable Long id, Model model) {
-        Nickname nickname = nicknameRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid nickname Id:" + id));
-        model.addAttribute("nickname", nickname);
-        return "editNickname";
-    }
-
-    @PostMapping("/editNickname/{id}")
-    public String editNickname(@PathVariable Long id, @ModelAttribute Nickname nickname) {
-        nickname.setId(id);
-        nicknameRepository.save(nickname);
-        return "redirect:/";
-    }
 
     @GetMapping("/editPrison/{id}")
     public String showEditPrisonForm(@PathVariable Long id, Model model) {

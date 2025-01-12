@@ -28,4 +28,9 @@ public class Article {
     @JoinColumn(name = "caste_id")
     private Caste caste;
 
+    public void setArticleNumber(String articleNumber) {
+    }
+
+    public void setArticleDescription(String articleDescription) {
+    }
 }

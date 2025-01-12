@@ -7,7 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+          rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <link rel="stylesheet" href="/css/main.css">
     <title>Prison Utils</title>
@@ -23,13 +24,16 @@
         <div class="header__inner-menu">
             <ul class="header__menu-list">
                 <li class="header__menu-item">
-                    <a href="/AllGang" class="header__menu-link h4">Посмотреть группировки</a>
+                    <a href="/AllGang" class="header__menu-link h4 ">Группировки</a>
                 </li>
                 <li class="header__menu-item">
-                    <a href="/AllPrison" class="header__menu-link h4">Посмотреть все тюрьмы</a>
+                    <a href="/AllPrison" class="header__menu-link h4 ">Колонии</a>
                 </li>
                 <li class="header__menu-item">
-                    <a href="/AllCaste" class="header__menu-link h4">Посмотреть все касты</a>
+                    <a href="/AllCaste" class="header__menu-link h4 ">Касты</a>
+                </li>
+                <li class="header__menu-item">
+                    <a href="/AllArticle" class="header__menu-link h4 ">Статьи</a>
                 </li>
             </ul>
         </div>
@@ -43,7 +47,7 @@
                 <a href="/addMember" class="main_info-btns-btn button">Добавить заключенного</a>
                 <a href="/addCaste" class="main_info-btns-btn button">Добавить касту</a>
                 <a href="/addGang" class="main_info-btns-btn button">Добавить группировку</a>
-                <a href="/addPrison" class="main_info-btns-btn button">Добавить тюрьму </a>
+                <a href="/addPrison" class="main_info-btns-btn button">Добавить колонию </a>
             </div>
             <div class="main__info-prisoners container">
                 <ul>
@@ -56,6 +60,9 @@
                         </a>
                         <a href="/" class="main__info-item-link" style="pointer-events: none">Отчество:
                             <span th:text="${member.memberLastName}"></span>
+                        </a>
+                        <a href="/" class="main__info-item-link" style="pointer-events: none">Статья:
+                            <span th:text="${member.articleNumber}"></span>
                         </a>
                         <a href="/" class="main__info-item-link" style="pointer-events: none">Колония:
                             <span th:text="${member.prison != null ? member.prison.name + ' - ' + member.prison.city : 'N/A'}"></span>
@@ -80,9 +87,12 @@
                         </a>
 
                         <div class="update-cont">
-                            <a th:href="@{/editMember/{id}(id=${member.id})}" class="main__info-sup edit"><i class="fas fa-edit"></i></a>
-                            <form action="#" th:action="@{/deleteMember/{id}(id=${member.id})}" method="post" style="display:inline;">
-                                <button type="submit" class="main__info-sup delete" style="background:none; border:none; color:red; text-decoration:underline; cursor:pointer;">
+                            <a th:href="@{/editMember/{id}(id=${member.id})}" class="main__info-sup edit"><i
+                                    class="fas fa-edit"></i></a>
+                            <form action="#" th:action="@{/deleteMember/{id}(id=${member.id})}" method="post"
+                                  style="display:inline;">
+                                <button type="submit" class="main__info-sup delete"
+                                        style="background:none; border:none; color:red; text-decoration:underline; cursor:pointer;">
                                     <i class="fas fa-trash-alt"></i>
                                 </button>
                             </form>
@@ -98,8 +108,6 @@
 </html>
 
 <!-- edit articles -->
-<!-- edit articles -->
-<!-- delete nicknames -->
 <!-- delete Articles -->
 <!-- read Articles -->
 <!-- update Articles -->

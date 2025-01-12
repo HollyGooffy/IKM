@@ -19,27 +19,31 @@
         <div class="header__inner-menu">
             <ul class="header__menu-list">
                 <li class="header__menu-item">
-                    <a href="/AllGang" class="header__menu-link h4">Посмотреть группировки</a>
+                    <a href="/AllGang" class="header__menu-link h4">Группировки</a>
                 </li>
                 <li class="header__menu-item">
-                    <a href="/AllPrison" class="header__menu-link h4">Посмотреть все тюрьмы</a>
+                    <a href="/AllPrison" class="header__menu-link h4">Колонии</a>
                 </li>
                 <li class="header__menu-item">
-                    <a href="/AllCaste" class="header__menu-link h4">Посмотреть все касты</a>
+                    <a href="/AllCaste" class="header__menu-link h4">Касты</a>
+                </li>
+                <li class="header__menu-item">
+                    <a href="/AllArticle" class="header__menu-link h4">Статьи</a>
                 </li>
             </ul>
         </div>
     </div>
 </header>
+
 <main>
     <section>
         <div class="addPrison-page container">
             <form action="#" class="page__form" th:action="@{/addPrison}" th:object="${prison}" method="post">
-                <label for="prisonName">Название тюрьмы</label>
-                <input type="text" id="prisonName" th:field="*{name}" required>
+                <label for="name">Название</label>
+                <input type="text" id="name" th:field="*{name}" required>
 
-                <label for="prisonCity">Город</label>
-                <input type="text" id="prisonCity" th:field="*{city}" required>
+                <label for="city">Город</label>
+                <input type="text" id="city" th:field="*{city}" required>
 
                 <button class="button button__form-submit" type="submit">Добавить</button>
             </form>
