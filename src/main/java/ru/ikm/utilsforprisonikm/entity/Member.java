@@ -53,4 +53,6 @@ public class Member {
     @JoinColumn(name = "prison_id")
     private Prison prison;
 
+    public void setArticle(Article newArticle) {
+    }
 }
