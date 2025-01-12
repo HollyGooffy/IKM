@@ -31,7 +31,7 @@ public class editController {
     private final PrisonRepository prisonRepository;
 
     // Patch
-    @GetMapping("/editMember/{id}")
+    @GetMapping("/editMember")
     public String showEditMemberForm(@PathVariable Long id, Model model) {
         Member member = memberRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid member Id:" + id));
         List<Prison> prisons = prisonRepository.findAll();
