@@ -65,23 +65,20 @@
                         <a href="/" class="main__info-item-link" style="pointer-events: none">Отчество:
                             <span th:text="${member.memberLastName}"></span>
                         </a>
+                        <a href="/" class="main__info-item-link" style="pointer-events: none">Колония:
+                            <span th:text="${member.prison != null ? member.prison.name + ' - ' + member.prison.city : 'N/A'}"></span>
+                        </a>
                         <a href="/" class="main__info-item-link" style="pointer-events: none">Статья:
                             <span th:text="${member.articleNumber}"></span>
                         </a>
-                        <a href="/" class="main__info-item-link" style="pointer-events: none">Колония:
-                            <span th:text="${member.prison != null ? member.prison.name + ' - ' + member.prison.city : 'N/A'}"></span>
+                        <a href="/" class="main__info-item-link" style="pointer-events: none">Описание статьи:
+                            <span th:text="${member.articleDescription}"></span>
                         </a>
                         <a href="/" class="main__info-item-link" style="pointer-events: none">Дата заключения:
                             <span th:text="${member.joinedDate}"></span>
                         </a>
                         <a href="/" class="main__info-item-link" style="pointer-events: none">Активен:
                             <span th:text="${member.active}"></span>
-                        </a>
-                        <a href="/" class="main__info-item-link" style="pointer-events: none">Номер статьи:
-                            <span th:text="${member.articleNumber}"></span>
-                        </a>
-                        <a href="/" class="main__info-item-link" style="pointer-events: none">Описание статьи:
-                            <span th:text="${member.articleDescription}"></span>
                         </a>
                         <a href="/" class="main__info-item-link" style="pointer-events: none">Группировка:
                             <span th:text="${member.gang != null ? member.gang.name : 'N/A'}"></span>
