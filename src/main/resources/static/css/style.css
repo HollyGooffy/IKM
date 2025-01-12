@@ -187,3 +187,19 @@ input[type="text"]
 .delete:hover{
     color: var(--color-accent);
 }
+
+.main__info-count{
+    display: flex;
+    justify-content: center;
+    font-size: 26px;
+    color: var(--color-light);
+}
+
+.main__info-count span{
+    margin-left: 10px;
+    color: var(--color-accent);
+}
+
+.main__info-item-link span{
+    margin-left: 10px;
+}

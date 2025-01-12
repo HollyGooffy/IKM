@@ -30,11 +30,20 @@ public class MainController {
         List<Gang> gangs = gangRepository.findAll();
         List<Article> articles = articleRepository.findAll();
 
+        long memberCount = memberRepository.count();
+        long casteCount = casteRepository.count();
+        long prisonCount = prisonRepository.count();
+        long gangCount = gangRepository.count();
+
         model.addAttribute("members", members);
         model.addAttribute("castes", castes);
         model.addAttribute("prisons", prisons);
         model.addAttribute("gangs", gangs);
         model.addAttribute("articles", articles);
+        model.addAttribute("memberCount", memberCount);
+        model.addAttribute("casteCount", casteCount);
+        model.addAttribute("prisonCount", prisonCount);
+        model.addAttribute("gangCount", gangCount);
 
         return "index";
     }

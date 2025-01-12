@@ -50,6 +50,10 @@
                 <a href="/addPrison" class="main_info-btns-btn button">Добавить колонию </a>
             </div>
             <div class="main__info-prisoners container">
+                <h4 class="main__info-count">Общее количество заключенных: <span th:text="${memberCount}"></span></h4>
+                <h4 class="main__info-count">Общее количество каст: <span th:text="${casteCount}"></span></h4>
+                <h4 class="main__info-count">Общее количество колоний: <span th:text="${prisonCount}"></span></h4>
+                <h4 class="main__info-count">Общее количество группировок: <span th:text="${gangCount}"></span></h4>
                 <ul>
                     <li class="main__info-item" th:each="member : ${members}">
                         <a href="/" class="main__info-item-link" style="pointer-events: none">Имя:
