@@ -53,16 +53,4 @@ public class Member {
     @JoinColumn(name = "prison_id")
     private Prison prison;
 
-    // Getters and Setters
-    public void setArticleNumber(String articleNumber) {
-        this.articleNumber = articleNumber;
-    }
-
-
-    public void setArticleDescription(String articleDescription) {
-        this.articleDescription = articleDescription;
-    }
-
-    public void setArticle(Article newArticle) {
-    }
 }

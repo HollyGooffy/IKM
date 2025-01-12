@@ -63,21 +63,14 @@ public class addController {
         Article newArticle = new Article();
         newArticle.setArticleNumber(articleNumber);
         newArticle.setArticleDescription(articleDescription);
-        newArticle.setName(articleNumber); // Установка значения для поля name
-
-
-        // Проверка на уникальность имени статьи
+        newArticle.setName(articleNumber);
         if (articleRepository.existsByName(newArticle.getName())) {
             model.addAttribute("errorMessage", "Статья с таким именем уже существует.");
             return "addMember";
         }
 
-        // Сохраняем статью
         articleRepository.save(newArticle);
-
-        // Устанавливаем статью у члена
         member.setArticle(newArticle);
-
         memberRepository.save(member);
         return "redirect:/";
     }
@@ -118,7 +111,6 @@ public class addController {
 
     @PostMapping("/addGang")
     public String addGang(@ModelAttribute Gang gang, @RequestParam("prisonId") Long prisonId, Model model) {
-        // Проверка на уникальность значения leader
         if (gangRepository.existsByLeader(gang.getLeader())) {
             model.addAttribute("errorMessage", "Лидер с таким именем уже существует.");
             return "addGang";
@@ -138,12 +130,10 @@ public class addController {
 
     @PostMapping("/addArticle")
     public String addArticle(@ModelAttribute Article article, Model model) {
-        // Проверка на уникальность значения name
         if (articleRepository.existsByName(article.getName())) {
             model.addAttribute("errorMessage", "Статья с таким именем уже существует.");
             return "addArticle";
         }
-
         articleRepository.save(article);
         return "redirect:/";
     }

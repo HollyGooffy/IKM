@@ -114,10 +114,7 @@ public class editController {
     @PostMapping("/editArticle/{id}")
     public String editArticle(@PathVariable Long id, @ModelAttribute Article article) {
         Article existingArticle = articleRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid article Id:" + id));
-
-        // Обновление информации о статье для всех заключенных, связанных с этой статьей
         updateMembersArticleInfo(existingArticle, article);
-
         article.setId(id);
         articleRepository.save(article);
 
