@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import ru.ikm.utilsforprisonikm.entity.Article;
 import ru.ikm.utilsforprisonikm.entity.Gang;
 import ru.ikm.utilsforprisonikm.entity.Member;
 import ru.ikm.utilsforprisonikm.repository.*;
@@ -57,7 +58,8 @@ public class deleteController {
 
     @PostMapping("/deleteArticle/{id}")
     public String deleteArticle(@PathVariable Long id) {
-        List<Member> members = memberRepository.findByArticleNumber(String.valueOf(id));
+        Article article = articleRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid article Id:" + id));
+        List<Member> members = memberRepository.findByArticleNumber(article.getName());
         memberRepository.deleteAll(members);
         articleRepository.deleteById(id);
         return "redirect:/AllArticle";

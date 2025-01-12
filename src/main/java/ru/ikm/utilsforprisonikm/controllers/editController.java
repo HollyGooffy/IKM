@@ -1,4 +1,5 @@
 package ru.ikm.utilsforprisonikm.controllers;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +30,6 @@ public class editController {
     private final MemberRepository memberRepository;
     private final PrisonRepository prisonRepository;
 
-
     // Patch
     @GetMapping("/editMember/{id}")
     public String showEditMemberForm(@PathVariable Long id, Model model) {
@@ -45,7 +45,13 @@ public class editController {
     }
 
     @PostMapping("/editMember/{id}")
-    public String updateMember(@PathVariable Long id, @ModelAttribute Member member, @RequestParam(value = "prisonId", required = false) Long prisonId, @RequestParam(value = "casteId", required = false) Long casteId, @RequestParam(value = "gangId", required = false) Long gangId, @RequestParam("articleNumber") String articleNumber, @RequestParam("articleDescription") String articleDescription, Model model) {
+    public String updateMember(@PathVariable Long id,
+                               @ModelAttribute Member member,
+                               @RequestParam(value = "prisonId", required = false) Long prisonId,
+                               @RequestParam(value = "casteId", required = false) Long casteId,
+                               @RequestParam(value = "gangId", required = false) Long gangId,
+                               @RequestParam("articleNumber") String articleNumber,
+                               @RequestParam("articleDescription") String articleDescription, Model model) {
         if (prisonId != null) {
             Prison prison = prisonRepository.findById(prisonId).orElse(null);
             member.setPrison(prison);
@@ -58,6 +64,7 @@ public class editController {
             Gang gang = gangRepository.findById(gangId).orElse(null);
             member.setGang(gang);
         }
+
         member.setJoinedDate(LocalDate.now());
         member.setActive(true);
         member.setArticleNumber(articleNumber);
@@ -106,11 +113,25 @@ public class editController {
 
     @PostMapping("/editArticle/{id}")
     public String editArticle(@PathVariable Long id, @ModelAttribute Article article) {
+        Article existingArticle = articleRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid article Id:" + id));
+
+        // Обновление информации о статье для всех заключенных, связанных с этой статьей
+        updateMembersArticleInfo(existingArticle, article);
+
         article.setId(id);
         articleRepository.save(article);
+
         return "redirect:/";
     }
 
+    private void updateMembersArticleInfo(Article existingArticle, Article updatedArticle) {
+        List<Member> members = memberRepository.findByArticleNumber(existingArticle.getName());
+        for (Member member : members) {
+            member.setArticleNumber(updatedArticle.getName());
+            member.setArticleDescription(updatedArticle.getDescription());
+            memberRepository.save(member);
+        }
+    }
 
     @GetMapping("/editPrison/{id}")
     public String showEditPrisonForm(@PathVariable Long id, Model model) {
