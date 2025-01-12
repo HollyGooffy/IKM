@@ -54,19 +54,15 @@ public class Member {
     private Prison prison;
 
     // Getters and Setters
-    public String getArticleNumber() {
-        return articleNumber;
-    }
-
     public void setArticleNumber(String articleNumber) {
         this.articleNumber = articleNumber;
     }
 
-    public String getArticleDescription() {
-        return articleDescription;
-    }
 
     public void setArticleDescription(String articleDescription) {
         this.articleDescription = articleDescription;
+    }
+
+    public void setArticle(Article newArticle) {
     }
 }

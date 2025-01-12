@@ -44,7 +44,7 @@ public class addController {
     }
 
     @PostMapping("/addMember")
-    public String addMember(@ModelAttribute Member member, @RequestParam(value = "prisonId", required = false) Long prisonId, @RequestParam(value = "casteId", required = false) Long casteId, @RequestParam(value = "gangId", required = false) Long gangId, @RequestParam("articleNumber") String articleNumber, @RequestParam("articleDescription") String articleDescription, @RequestParam("nickname") String nickname, Model model) {
+    public String addMember(@ModelAttribute Member member, @RequestParam(value = "prisonId", required = false) Long prisonId, @RequestParam(value = "casteId", required = false) Long casteId, @RequestParam(value = "gangId", required = false) Long gangId, @RequestParam("articleNumber") String articleNumber, @RequestParam("articleDescription") String articleDescription,  Model model) {
         if (prisonId != null) {
             Prison prison = prisonRepository.findById(prisonId).orElse(null);
             member.setPrison(prison);
@@ -60,22 +60,28 @@ public class addController {
         member.setJoinedDate(LocalDate.now());
         member.setActive(true);
 
-        // Проверка на уникальность значения name
-        if (articleRepository.existsByName(nickname)) {
+        Article newArticle = new Article();
+        newArticle.setArticleNumber(articleNumber);
+        newArticle.setArticleDescription(articleDescription);
+        newArticle.setName(articleNumber); // Установка значения для поля name
+
+
+        // Проверка на уникальность имени статьи
+        if (articleRepository.existsByName(newArticle.getName())) {
             model.addAttribute("errorMessage", "Статья с таким именем уже существует.");
             return "addMember";
         }
 
-        // Сохраняем статью в отдельной сущности Article
-        Article article = new Article();
-        article.setArticleNumber(articleNumber);
-        article.setArticleDescription(articleDescription);
-        article.setName(nickname); // Убедитесь, что поле name не является null
-        articleRepository.save(article);
+        // Сохраняем статью
+        articleRepository.save(newArticle);
+
+        // Устанавливаем статью у члена
+        member.setArticle(newArticle);
 
         memberRepository.save(member);
         return "redirect:/";
     }
+
 
 
     @GetMapping("/addCaste")
@@ -132,6 +138,12 @@ public class addController {
 
     @PostMapping("/addArticle")
     public String addArticle(@ModelAttribute Article article, Model model) {
+        // Проверка на уникальность значения name
+        if (articleRepository.existsByName(article.getName())) {
+            model.addAttribute("errorMessage", "Статья с таким именем уже существует.");
+            return "addArticle";
+        }
+
         articleRepository.save(article);
         return "redirect:/";
     }

@@ -3,10 +3,8 @@ package ru.ikm.utilsforprisonikm.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-
 @Entity
 @Table(name = "article")
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
@@ -33,4 +31,6 @@ public class Article {
 
     public void setArticleDescription(String articleDescription) {
     }
+
+
 }

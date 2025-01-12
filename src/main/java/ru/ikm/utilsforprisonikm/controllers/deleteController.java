@@ -29,9 +29,7 @@ public class deleteController {
 
     @PostMapping("/deleteCaste/{id}")
     public String deleteCaste(@PathVariable Long id) {
-        // Найти всех заключенных, связанных с этой кастой
         List<Member> members = memberRepository.findByCasteId(id);
-
         memberRepository.deleteAll(members);
         casteRepository.deleteById(id);
 
