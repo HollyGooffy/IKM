@@ -203,3 +203,7 @@ input[type="text"]
 .main__info-item-link span{
     margin-left: 10px;
 }
+
+.text-muted{
+    color: var(--color-light);
+}

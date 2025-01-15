@@ -41,9 +41,15 @@
             <form action="#" class="page__form" th:action="@{/addPrison}" th:object="${prison}" method="post">
                 <label for="name">Название</label>
                 <input type="text" id="name" th:field="*{name}" required>
+                <small class="text-muted">Только буквы и цифры</small>
+                <h6 th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="errors-item">Ошибка валидации названия колонии</h6>
+
 
                 <label for="city">Город</label>
                 <input type="text" id="city" th:field="*{city}" required>
+                <small class="text-muted">Только буквы</small>
+                <h6 th:if="${#fields.hasErrors('city')}" th:errors="*{city}" class="errors-item">Ошибка валидации названия города</h6>
+
 
                 <button class="button button__form-submit" type="submit">Добавить</button>
             </form>

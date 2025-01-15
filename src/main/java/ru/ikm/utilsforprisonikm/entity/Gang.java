@@ -1,6 +1,7 @@
 package ru.ikm.utilsforprisonikm.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
 import lombok.*;
 
 @Entity
@@ -18,9 +19,11 @@ public class Gang {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @Pattern(regexp = "^[a-zA-Zа-яА-Я\\s]+$", message = "Specialty must contain only letters and spaces")
     @Column(name = "name", nullable = false, length = 50)
     private String name;
 
+    @Pattern(regexp = "^[a-zA-Zа-яА-Я\\s]+$", message = "Specialty must contain only letters and spaces")
     @Column(name = "leader", length = 50)
     private String leader;
 
@@ -28,6 +31,4 @@ public class Gang {
     @JoinColumn(name = "prison_id")
     private Prison prison;
 
-    @Column(name = "active")
-    private Boolean active;
 }

@@ -32,7 +32,7 @@ public class addController {
 
     // Add
     @GetMapping("/addMember")
-    public String showAddMemberForm(Model model) {
+    public String showAddMemberForm(Model model)    {
         List<Prison> prisons = prisonRepository.findAll();
         List<Caste> castes = casteRepository.findAll();
         List<Gang> gangs = gangRepository.findAll();
@@ -58,7 +58,6 @@ public class addController {
             member.setGang(gang);
         }
         member.setJoinedDate(LocalDate.now());
-        member.setActive(true);
 
         Article newArticle = new Article();
         newArticle.setArticleNumber(articleNumber);

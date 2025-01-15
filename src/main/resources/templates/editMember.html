@@ -41,12 +41,18 @@
 
                 <label for="firstName">Имя</label>
                 <input type="text" id="firstName" th:field="*{memberName}" required>
+                <small class="text-muted">Только буквы</small>
+                <h6 th:if="${#fields.hasErrors('memberName')}" th:errors="*{memberName}" class="errors-item">Ошибка валидации имени</h6>
 
                 <label for="secondName">Фамилия</label>
                 <input type="text" id="secondName" th:field="*{memberSecondName}" required>
+                <small class="text-muted">Только буквы</small>
+                <h6 th:if="${#fields.hasErrors('memberSecondName')}" th:errors="*{memberSecondName}" class="errors-item">Ошибка валидации фамилии</h6>
 
                 <label for="LastName">Отчество</label>
                 <input type="text" id="LastName" th:field="*{memberLastName}" required>
+                <small class="text-muted">Только буквы</small>
+                <h6 th:if="${#fields.hasErrors('memberLastName')}" th:errors="*{memberLastName}" class="errors-item">Ошибка валидации отчества</h6>
 
                 <label for="casteSelect">Выбор Касты</label>
                 <select id="casteSelect" name="casteId">
@@ -80,9 +86,14 @@
 
                 <label for="articleNumber">Номер статьи</label>
                 <input type="number" id="articleNumber" name="articleNumber" th:field="*{articleNumber}" required>
+                <small class="text-muted">Только цифры</small>
+                <h6 th:if="${#fields.hasErrors('articleNumber')}" th:errors="*{articleNumber}" class="errors-item">Ошибка валидации номера статьи</h6>
+
 
                 <label for="articleDescription">Описание статьи</label>
                 <textarea id="articleDescription" name="articleDescription" th:field="*{articleDescription}" required></textarea>
+                <small class="text-muted">Только буквы</small>
+                <h6 th:if="${#fields.hasErrors('articleDescription')}" th:errors="*{articleDescription}" class="errors-item">Ошибка валидации описания статьи</h6>
 
                 <button class="button button__form-submit" type="submit">Обновить</button>
             </form>

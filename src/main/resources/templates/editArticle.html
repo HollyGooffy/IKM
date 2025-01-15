@@ -45,9 +45,15 @@
             <form class="form page__form" th:action="@{/editArticle/{id}(id=${article.id})}" th:object="${article}" method="post">
                 <label for="numArticle">Номер статьи:</label>
                 <input type="number" id="numArticle" th:field="*{name}" required>
+                <small class="text-muted">Только цифры</small>
+                <h6 th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="errors-item">Ошибка валидации номера статьи</h6>
+
 
                 <label for="descArticle">Описание статьи</label>
                 <input id="descArticle" type="text" th:field="*{description}" required>
+                <small class="text-muted">Только буквы</small>
+                <h6 th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="errors-item">Ошибка валидации описания статьи</h6>
+
 
                 <button class="button button__form-submit" type="submit">Обновить</button>
             </form>

@@ -49,9 +49,6 @@
                     <a href="/" class="allElement__item-link" style="pointer-events: none">Тюрьма:
                         <span th:text="${gang.prison?.getName()} + ' - ' + ${gang.prison?.getCity()}"></span>
                     </a>
-                    <a href="/" class="allElement__item-link last-child-span" style="pointer-events: none">Активна:
-                        <span th:text="${gang.getActive()}"></span>
-                    </a>
                     <div class="update-cont">
                         <a th:href="@{/editGang/{id}(id=${gang.id})}" class="main__info-sup edit"><i class="fas fa-edit"></i></a>
                         <form action="#" th:action="@{/deleteGang/{id}(id=${gang.id})}" method="post" style="display:inline;">

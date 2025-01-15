@@ -42,10 +42,14 @@
             <form action="#" class="page__form" th:action="@{/addCaste}" th:object="${caste}" method="post">
                 <label for="casteName">Название касты</label>
                 <input type="text" id="casteName" th:field="*{name}" required>
+                <small class="text-muted">Только буквы</small>
+                <h6 th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="errors-item">Ошибка названия касты</h6>
+
 
                 <label for="casteDescription">Описание касты</label>
                 <textarea id="casteDescription" th:field="*{description}" required></textarea>
-
+                <small class="text-muted">Только буквы</small>
+                <h6 th:if="${#fields.hasErrors('description')}" th:errors="*{description}" class="errors-item">Ошибка описания касты</h6>
 
                 <button class="button button__form-submit" type="submit">Добавить</button>
             </form>

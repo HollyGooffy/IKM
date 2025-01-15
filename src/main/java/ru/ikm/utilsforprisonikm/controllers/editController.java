@@ -66,7 +66,6 @@ public class editController {
         }
 
         member.setJoinedDate(LocalDate.now());
-        member.setActive(true);
         member.setArticleNumber(articleNumber);
         member.setArticleDescription(articleDescription);
         memberRepository.save(member);

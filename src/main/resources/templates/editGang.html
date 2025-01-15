@@ -38,8 +38,10 @@
     <section>
         <div class="editGang-page container">
             <form action="#" class="page__form" th:action="@{/editGang/{id}(id=${gang.id})}" th:object="${gang}" method="post">
-                <label for="gangName">Название банды</label>
+                <label for="gangName">Название группировки</label>
                 <input type="text" id="gangName" th:field="*{name}" required>
+                <small class="text-muted">Только буквы</small>
+                <h6 th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="errors-item">Ошибка валидации названия группировки</h6>
 
                 <label for="leaderSelect">Лидер</label>
                 <select id="leaderSelect" th:field="*{leader}">
