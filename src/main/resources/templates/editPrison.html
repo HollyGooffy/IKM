@@ -41,14 +41,16 @@
                 <label for="prisonName">Название тюрьмы</label>
                 <input type="text" id="prisonName" th:field="*{name}" required>
                 <small class="text-muted">Только буквы и цифры</small>
-                <h6 th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="errors-item">Ошибка валидации названия колонии</h6>
-
+                <div th:if="${errorMessage}" style="color: red;">
+                    <p th:text="${errorMessage}"></p>
+                </div>
 
                 <label for="prisonCity">Город</label>
                 <input type="text" id="prisonCity" th:field="*{city}" required>
                 <small class="text-muted">Только буквы</small>
-                <h6 th:if="${#fields.hasErrors('city')}" th:errors="*{city}" class="errors-item">Ошибка валидации описания колонии</h6>
-
+                <div th:if="${errorMessage}" style="color: red;">
+                    <p th:text="${errorMessage}"></p>
+                </div>
 
                 <button class="button button__form-submit" type="submit">Обновить</button>
             </form>

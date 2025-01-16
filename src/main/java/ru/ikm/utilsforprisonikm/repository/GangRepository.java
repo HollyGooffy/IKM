@@ -7,6 +7,6 @@ import java.util.List;
 
 public interface GangRepository extends JpaRepository<Gang, Long> {
     List<Gang> findByPrisonId(Long prisonId);
-
+    boolean existsByPrisonId(Long prisonId);
     boolean existsByLeader(String leader);
 }

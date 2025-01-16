@@ -5,7 +5,7 @@ import jakarta.validation.constraints.*;
 import lombok.*;
 
 @Entity
-@Table(name = "gang")
+@Table(name = "gang", uniqueConstraints = {@UniqueConstraint(columnNames = "prison_id")})
 
 
 @AllArgsConstructor

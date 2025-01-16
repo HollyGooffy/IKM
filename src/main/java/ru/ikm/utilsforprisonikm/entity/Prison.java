@@ -6,7 +6,7 @@ import lombok.*;
 
 
 @Entity
-@Table(name = "prison")
+@Table(name = "prison" , uniqueConstraints = {@UniqueConstraint(columnNames = {"name", "city"})})
 
 @AllArgsConstructor
 @NoArgsConstructor

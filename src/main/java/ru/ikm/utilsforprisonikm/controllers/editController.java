@@ -2,6 +2,7 @@ package ru.ikm.utilsforprisonikm.controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,6 +10,7 @@ import org.springframework.data.web.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ru.ikm.utilsforprisonikm.entity.*;
@@ -33,7 +35,7 @@ public class editController {
     // Patch
     @GetMapping("/editMember/{id}")
     public String showEditMemberForm(@PathVariable Long id, Model model) {
-        Member member = memberRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid member Id:" + id));
+        Member member = memberRepository.findById(id).orElse(null);
         List<Prison> prisons = prisonRepository.findAll();
         List<Caste> castes = casteRepository.findAll();
         List<Gang> gangs = gangRepository.findAll();
@@ -45,13 +47,11 @@ public class editController {
     }
 
     @PostMapping("/editMember/{id}")
-    public String updateMember(@PathVariable Long id,
-                               @ModelAttribute Member member,
-                               @RequestParam(value = "prisonId", required = false) Long prisonId,
-                               @RequestParam(value = "casteId", required = false) Long casteId,
-                               @RequestParam(value = "gangId", required = false) Long gangId,
-                               @RequestParam("articleNumber") String articleNumber,
-                               @RequestParam("articleDescription") String articleDescription, Model model) {
+    public String editMember(@PathVariable Long id, @Valid @ModelAttribute Member member, BindingResult bindingResult, @RequestParam(value = "prisonId", required = false) Long prisonId, @RequestParam(value = "casteId", required = false) Long casteId, @RequestParam(value = "gangId", required = false) Long gangId, @RequestParam("articleNumber") String articleNumber, @RequestParam("articleDescription") String articleDescription, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("errorMessage", "Ошибка валидации. Пожалуйста, проверьте введенные данные.");
+            return "editMember";
+        }
         if (prisonId != null) {
             Prison prison = prisonRepository.findById(prisonId).orElse(null);
             member.setPrison(prison);
@@ -64,31 +64,43 @@ public class editController {
             Gang gang = gangRepository.findById(gangId).orElse(null);
             member.setGang(gang);
         }
-
         member.setJoinedDate(LocalDate.now());
-        member.setArticleNumber(articleNumber);
-        member.setArticleDescription(articleDescription);
+
+        Article newArticle = new Article();
+        newArticle.setArticleNumber(articleNumber);
+        newArticle.setArticleDescription(articleDescription);
+        newArticle.setName(articleNumber);
+        if (articleRepository.existsByName(newArticle.getName())) {
+            model.addAttribute("errorMessage", "Статья с таким именем уже существует.");
+            return "editMember";
+        }
+
+        articleRepository.save(newArticle);
+        member.setArticle(newArticle);
         memberRepository.save(member);
         return "redirect:/";
     }
 
     @GetMapping("/editCaste/{id}")
     public String showEditCasteForm(@PathVariable Long id, Model model) {
-        Caste caste = casteRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid caste Id:" + id));
+        Caste caste = casteRepository.findById(id).orElse(null);
         model.addAttribute("caste", caste);
         return "editCaste";
     }
 
     @PostMapping("/editCaste/{id}")
-    public String editCaste(@PathVariable Long id, @ModelAttribute Caste caste) {
-        caste.setId(id);
+    public String editCaste(@PathVariable Long id, @Valid @ModelAttribute Caste caste, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("errorMessage", "Ошибка валидации. Пожалуйста, проверьте введенные данные.");
+            return "editCaste";
+        }
         casteRepository.save(caste);
         return "redirect:/";
     }
 
     @GetMapping("/editGang/{id}")
     public String showEditGangForm(@PathVariable Long id, Model model) {
-        Gang gang = gangRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid gang Id:" + id));
+        Gang gang = gangRepository.findById(id).orElse(null);
         List<Prison> prisons = prisonRepository.findAll();
         model.addAttribute("gang", gang);
         model.addAttribute("prisons", prisons);
@@ -96,7 +108,11 @@ public class editController {
     }
 
     @PostMapping("/editGang/{id}")
-    public String editGang(@PathVariable Long id, @ModelAttribute Gang gang, @RequestParam("prisonId") Long prisonId, Model model) {
+    public String editGang(@PathVariable Long id, @Valid @ModelAttribute Gang gang, BindingResult bindingResult, @RequestParam("prisonId") Long prisonId, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("errorMessage", "Ошибка валидации. Пожалуйста, проверьте введенные данные.");
+            return "editGang";
+        }
         Prison prison = prisonRepository.findById(prisonId).orElse(null);
         gang.setPrison(prison);
         gangRepository.save(gang);
@@ -105,41 +121,35 @@ public class editController {
 
     @GetMapping("/editArticle/{id}")
     public String showEditArticleForm(@PathVariable Long id, Model model) {
-        Article article = articleRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid article Id:" + id));
+        Article article = articleRepository.findById(id).orElse(null);
         model.addAttribute("article", article);
         return "editArticle";
     }
 
     @PostMapping("/editArticle/{id}")
-    public String editArticle(@PathVariable Long id, @ModelAttribute Article article) {
-        Article existingArticle = articleRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid article Id:" + id));
-        updateMembersArticleInfo(existingArticle, article);
-        article.setId(id);
-        articleRepository.save(article);
-
-        return "redirect:/";
-    }
-
-    private void updateMembersArticleInfo(Article existingArticle, Article updatedArticle) {
-        List<Member> members = memberRepository.findByArticleNumber(existingArticle.getName());
-        for (Member member : members) {
-            member.setArticleNumber(updatedArticle.getName());
-            member.setArticleDescription(updatedArticle.getDescription());
-            memberRepository.save(member);
+    public String editArticle(@PathVariable Long id, @Valid @ModelAttribute Article article, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("errorMessage", "Ошибка валидации. Пожалуйста, проверьте введенные данные.");
+            return "editArticle";
         }
+        articleRepository.save(article);
+        return "redirect:/";
     }
 
     @GetMapping("/editPrison/{id}")
     public String showEditPrisonForm(@PathVariable Long id, Model model) {
-        Prison prison = prisonRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid prison Id:" + id));
+        Prison prison = prisonRepository.findById(id).orElse(null);
         model.addAttribute("prison", prison);
         return "editPrison";
     }
 
     @PostMapping("/editPrison/{id}")
-    public String editPrison(@PathVariable Long id, @ModelAttribute Prison prison) {
-        prison.setId(id);
+    public String editPrison(@PathVariable Long id, @Valid @ModelAttribute Prison prison, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("errorMessage", "Ошибка валидации. Пожалуйста, проверьте введенные данные.");
+            return "editPrison";
+        }
         prisonRepository.save(prison);
-        return "redirect:/";
+        return "redirect:/AllPrison";
     }
 }

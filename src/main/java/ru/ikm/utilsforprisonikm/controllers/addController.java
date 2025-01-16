@@ -2,6 +2,7 @@ package ru.ikm.utilsforprisonikm.controllers;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,6 +10,7 @@ import org.springframework.data.web.PagedModel;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 import ru.ikm.utilsforprisonikm.entity.*;
@@ -32,7 +34,7 @@ public class addController {
 
     // Add
     @GetMapping("/addMember")
-    public String showAddMemberForm(Model model)    {
+    public String showAddMemberForm(Model model) {
         List<Prison> prisons = prisonRepository.findAll();
         List<Caste> castes = casteRepository.findAll();
         List<Gang> gangs = gangRepository.findAll();
@@ -44,7 +46,11 @@ public class addController {
     }
 
     @PostMapping("/addMember")
-    public String addMember(@ModelAttribute Member member, @RequestParam(value = "prisonId", required = false) Long prisonId, @RequestParam(value = "casteId", required = false) Long casteId, @RequestParam(value = "gangId", required = false) Long gangId, @RequestParam("articleNumber") String articleNumber, @RequestParam("articleDescription") String articleDescription,  Model model) {
+    public String addMember(@Valid @ModelAttribute Member member, BindingResult bindingResult, @RequestParam(value = "prisonId", required = false) Long prisonId, @RequestParam(value = "casteId", required = false) Long casteId, @RequestParam(value = "gangId", required = false) Long gangId, @RequestParam("articleNumber") String articleNumber, @RequestParam("articleDescription") String articleDescription, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("errorMessage", "Ошибка валидации. Пожалуйста, проверьте введенные данные.");
+            return "addMember";
+        }
         if (prisonId != null) {
             Prison prison = prisonRepository.findById(prisonId).orElse(null);
             member.setPrison(prison);
@@ -74,8 +80,6 @@ public class addController {
         return "redirect:/";
     }
 
-
-
     @GetMapping("/addCaste")
     public String showAddCasteForm(Model model) {
         model.addAttribute("caste", new Caste());
@@ -83,7 +87,11 @@ public class addController {
     }
 
     @PostMapping("/addCaste")
-    public String addCaste(@ModelAttribute Caste caste, Model model) {
+    public String addCaste(@Valid @ModelAttribute Caste caste, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("errorMessage", "Ошибка валидации. Пожалуйста, проверьте введенные данные.");
+            return "addCaste";
+        }
         casteRepository.save(caste);
         return "redirect:/";
     }
@@ -95,10 +103,19 @@ public class addController {
     }
 
     @PostMapping("/addPrison")
-    public String addPrison(@ModelAttribute Prison prison, Model model) {
+    public String addPrison(@Valid @ModelAttribute Prison prison, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("errorMessage", "Ошибка валидации. Пожалуйста, проверьте введенные данные.");
+            return "addPrison";
+        }
+        if (prisonRepository.existsByNameAndCity(prison.getName(), prison.getCity())) {
+            model.addAttribute("errorMessage", "Тюрьма с таким именем и городом уже существует.");
+            return "addPrison";
+        }
         prisonRepository.save(prison);
         return "redirect:/AllPrison";
     }
+
 
     @GetMapping("/addGang")
     public String showAddGangForm(Model model) {
@@ -109,17 +126,25 @@ public class addController {
     }
 
     @PostMapping("/addGang")
-    public String addGang(@ModelAttribute Gang gang, @RequestParam("prisonId") Long prisonId, Model model) {
+    public String addGang(@Valid @ModelAttribute Gang gang, BindingResult bindingResult, @RequestParam("prisonId") Long prisonId, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("errorMessage", "Ошибка валидации. Пожалуйста, проверьте введенные данные.");
+            return "addGang";
+        }
+        if (gangRepository.existsByPrisonId(prisonId)) {
+            model.addAttribute("errorMessage", "Банда с таким prison_id уже существует.");
+            return "addGang";
+        }
         if (gangRepository.existsByLeader(gang.getLeader())) {
             model.addAttribute("errorMessage", "Лидер с таким именем уже существует.");
             return "addGang";
         }
-
         Prison prison = prisonRepository.findById(prisonId).orElse(null);
         gang.setPrison(prison);
         gangRepository.save(gang);
         return "redirect:/AllGang";
     }
+
 
     @GetMapping("/addArticle")
     public String showAddArticleForm(Model model) {
@@ -128,7 +153,11 @@ public class addController {
     }
 
     @PostMapping("/addArticle")
-    public String addArticle(@ModelAttribute Article article, Model model) {
+    public String addArticle(@Valid @ModelAttribute Article article, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("errorMessage", "Ошибка валидации. Пожалуйста, проверьте введенные данные.");
+            return "addArticle";
+        }
         if (articleRepository.existsByName(article.getName())) {
             model.addAttribute("errorMessage", "Статья с таким именем уже существует.");
             return "addArticle";

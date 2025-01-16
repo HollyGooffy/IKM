@@ -41,7 +41,9 @@
                 <label for="gangName">Название группировки</label>
                 <input type="text" id="gangName" th:field="*{name}" required>
                 <small class="text-muted">Только буквы</small>
-                <h6 th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="errors-item">Ошибка валидации названия группировки</h6>
+                <div th:if="${errorMessage}" style="color: red;">
+                    <p th:text="${errorMessage}"></p>
+                </div>
 
                 <label for="leaderSelect">Лидер</label>
                 <select id="leaderSelect" th:field="*{leader}">
@@ -60,6 +62,9 @@
                             th:text="${prison.name} + ' - ' + ${prison.city}"
                             th:selected="${prison.id == gang.prison.id}"></option>
                 </select>
+                <div th:if="${errorMessage}" style="color: red;">
+                    <p th:text="${errorMessage}"></p>
+                </div>
 
                 <button class="button button__form-submit" type="submit">Обновить</button>
             </form>
