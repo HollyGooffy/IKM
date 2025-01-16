@@ -146,24 +146,5 @@ public class addController {
     }
 
 
-    @GetMapping("/addArticle")
-    public String showAddArticleForm(Model model) {
-        model.addAttribute("article", new Article());
-        return "addArticle";
-    }
-
-    @PostMapping("/addArticle")
-    public String addArticle(@Valid @ModelAttribute Article article, BindingResult bindingResult, Model model) {
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("errorMessage", "Ошибка валидации. Пожалуйста, проверьте введенные данные.");
-            return "addArticle";
-        }
-        if (articleRepository.existsByName(article.getName())) {
-            model.addAttribute("errorMessage", "Статья с таким именем уже существует.");
-            return "addArticle";
-        }
-        articleRepository.save(article);
-        return "redirect:/";
-    }
 
 }

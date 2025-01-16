@@ -42,18 +42,15 @@
                 <label for="name">Название</label>
                 <input type="text" id="name" th:field="*{name}" required>
                 <small class="text-muted">Только буквы и цифры</small>
-                <div th:if="${errorMessage}" style="color: red;">
-                    <p th:text="${errorMessage}"></p>
-                </div>
 
                 <label for="city">Город</label>
                 <input type="text" id="city" th:field="*{city}" required>
                 <small class="text-muted">Только буквы</small>
+
+                <button class="button button__form-submit" type="submit">Добавить</button>
                 <div th:if="${errorMessage}" style="color: red;">
                     <p th:text="${errorMessage}"></p>
                 </div>
-
-                <button class="button button__form-submit" type="submit">Добавить</button>
             </form>
         </div>
     </section>
