@@ -36,6 +36,7 @@ public class addController {
     @GetMapping("/addMember")
     public String showAddMemberForm(Model model) {
         List<Prison> prisons = prisonRepository.findAll();
+
         List<Caste> castes = casteRepository.findAll();
         List<Gang> gangs = gangRepository.findAll();
         model.addAttribute("member", new Member());
@@ -51,6 +52,7 @@ public class addController {
             model.addAttribute("errorMessage", "Ошибка валидации. Пожалуйста, проверьте введенные данные.");
             return "addMember";
         }
+
         if (prisonId != null) {
             Prison prison = prisonRepository.findById(prisonId).orElse(null);
             member.setPrison(prison);
@@ -92,6 +94,7 @@ public class addController {
             model.addAttribute("errorMessage", "Ошибка валидации. Пожалуйста, проверьте введенные данные.");
             return "addCaste";
         }
+
         casteRepository.save(caste);
         return "redirect:/";
     }
@@ -116,7 +119,6 @@ public class addController {
         return "redirect:/AllPrison";
     }
 
-
     @GetMapping("/addGang")
     public String showAddGangForm(Model model) {
         List<Prison> prisons = prisonRepository.findAll();
@@ -132,7 +134,7 @@ public class addController {
             return "addGang";
         }
         if (gangRepository.existsByPrisonId(prisonId)) {
-            model.addAttribute("errorMessage", "Банда с таким prison_id уже существует.");
+            model.addAttribute("errorMessage", "Группировка с таким prison_id уже существует.");
             return "addGang";
         }
         if (gangRepository.existsByLeader(gang.getLeader())) {
@@ -144,7 +146,6 @@ public class addController {
         gangRepository.save(gang);
         return "redirect:/AllGang";
     }
-
 
 
 }

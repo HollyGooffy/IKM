@@ -43,14 +43,9 @@
                 <small class="text-muted">Только буквы</small>
 
 
-                <label for="leaderSelect">Лидер</label>
-                <select id="leaderSelect" th:field="*{leader}">
-                    <option value="">Лидер</option>
-                    <option th:each="member : ${members}"
-                            th:value="${member.id}"
-                            th:text="${member.memberName}"
-                            th:selected="${member.id == gang.leader.id}"></option>
-                </select>
+                <label for="leader">Лидер</label>
+                <input type="text" id="leader" th:field="*{leader}" >
+
 
                 <label for="prisonSelect">Выбор Колонии</label>
                 <select id="prisonSelect" name="prisonId" required>

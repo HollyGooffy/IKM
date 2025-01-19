@@ -69,7 +69,6 @@ public class editController {
         Article newArticle = new Article();
         newArticle.setArticleNumber(articleNumber);
         newArticle.setArticleDescription(articleDescription);
-        newArticle.setName(articleNumber);
         if (articleRepository.existsByName(newArticle.getName())) {
             model.addAttribute("errorMessage", "Статья с таким именем уже существует.");
             return "editMember";
@@ -148,6 +147,10 @@ public class editController {
         if (bindingResult.hasErrors()) {
             model.addAttribute("errorMessage", "Ошибка валидации. Пожалуйста, проверьте введенные данные.");
             return "editPrison";
+        }
+        if (prisonRepository.existsByNameAndCity(prison.getName(), prison.getCity())) {
+            model.addAttribute("errorMessage", "Тюрьма с таким именем и городом уже существует.");
+            return "addPrison";
         }
         prisonRepository.save(prison);
         return "redirect:/AllPrison";
